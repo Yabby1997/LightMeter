@@ -14,4 +14,8 @@ public class LightMeterService {
     public func foo() -> String {
         "Hello from LightMeter"
     }
+    
+    public func getExposureValue(iso: Int, shutterSpeed: Float, aperture: Float) -> Int {
+        Int(round(log2((Float(100) * aperture * aperture) / (shutterSpeed * Float(iso)))))
+    }
 }
