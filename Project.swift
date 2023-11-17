@@ -11,6 +11,16 @@ let targets: [Target] = [
         dependencies: []
     ),
     Target(
+        name: "LightMeterTests",
+        platform: .iOS,
+        product: .unitTests,
+        bundleId: "com.seunghun.lightmetertests",
+        sources: ["LightMeter/Tests/**"],
+        dependencies: [
+            .target(name: "LightMeter")
+        ]
+    ),
+    Target(
         name: "LightMeterDemo",
         platform: .iOS,
         product: .app,
