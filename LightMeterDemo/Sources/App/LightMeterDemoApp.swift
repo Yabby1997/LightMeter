@@ -6,6 +6,7 @@ struct LightMeterDemoApp: App {
     var body: some Scene {
         WindowGroup {
             LightMeterDemoView()
+                .environmentObject(LightMeterDemoViewModel())
         }
     }
 }
