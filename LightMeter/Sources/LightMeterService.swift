@@ -14,10 +14,6 @@ public class LightMeterService {
     /// Initializes a new instance of LightMeterService.
     public init() {}
 
-    public func foo() -> String {
-        "Hello from LightMeter"
-    }
-
     /// Calculates the Exposure Value (EV) based on ISO, shutter speed, and aperture.
     ///
     /// - Parameters:
