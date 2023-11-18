@@ -13,6 +13,8 @@ struct LightMeterDemoView: View {
     
     var body: some View {
         VStack {
+            Text("EV")
+                .font(.title3)
             Text("\(viewModel.exposureValue)")
                 .font(.system(size: 120, weight: .bold))
             HStack {
@@ -22,7 +24,7 @@ struct LightMeterDemoView: View {
                     Text("\(viewModel.iso)")
                         .font(.subheadline)
                 }
-                .frame(width: 100)
+                .frame(width: 80)
                 Spacer()
                 Slider(
                     value: Binding { Float(viewModel.iso) } set: { viewModel.iso = Int($0) },
@@ -33,10 +35,10 @@ struct LightMeterDemoView: View {
                 VStack(alignment: .center) {
                     Text("Shutter")
                         .font(.headline)
-                    Text("\(viewModel.shutterSpeed, specifier: "%.2f")")
+                    Text("\(viewModel.shutterSpeed, specifier: "%.4f")s")
                         .font(.subheadline)
                 }
-                .frame(width: 100)
+                .frame(width: 80)
                 Spacer()
                 Slider(
                     value: $viewModel.shutterSpeed,
@@ -47,10 +49,10 @@ struct LightMeterDemoView: View {
                 VStack(alignment: .center) {
                     Text("Aperture")
                         .font(.headline)
-                    Text("\(viewModel.aperture, specifier: "%.2f")")
+                    Text("ƒ\(viewModel.aperture, specifier: "%.1f")")
                         .font(.subheadline)
                 }
-                .frame(width: 100)
+                .frame(width: 80)
                 Spacer()
                 Slider(
                     value: $viewModel.aperture,
