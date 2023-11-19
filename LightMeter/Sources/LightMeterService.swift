@@ -39,16 +39,35 @@ public class LightMeterService {
     ///   - shutterSpeed: The shutter speed value for EV calculation.
     ///   - aperture: The aperture value for EV calculation.
     ///
-    /// - Returns: The calculated Exposure Value as an integer.
+    /// - Returns: The calculated Exposure Value as an float.
     /// - Throws: ``Errors`` that occured while calculating.
     public func getExposureValue(
-        iso: Int,
+        iso: Float,
         shutterSpeed: Float,
         aperture: Float
-    ) throws -> Int {
+    ) throws -> Float {
         guard iso > .zero else { throw Errors.invalidIso }
         guard shutterSpeed > .zero else { throw Errors.invalidShutterSpeed }
         guard aperture > .zero else { throw Errors.invalidAperture }
-        return Int(round(log2((Float(100) * aperture * aperture) / (shutterSpeed * Float(iso)))))
+        return log2((100.0 * aperture * aperture) / (shutterSpeed * Float(iso)))
+    }
+    
+    /// Calculates the ISO value based on EV, shutter speed, and aperture.
+    ///
+    /// - Parameters:
+    ///     - ev: The exposure value for ISO calculation.
+    ///     - shutterSpeed: The shutter speed value for ISO calculation.
+    ///     - aperture: The aperture value for ISO calculation.
+    ///
+    /// - Returns: The calculated ISO value as an float.
+    /// - Throws: ``Errors`` that occured while calculating.
+    public func getIsoValue(
+        ev: Float,
+        shutterSpeed: Float,
+        aperture: Float
+    ) throws -> Float {
+        guard shutterSpeed > .zero else { throw Errors.invalidShutterSpeed }
+        guard aperture > .zero else { throw Errors.invalidAperture }
+        return (100.0 * pow(aperture, 2)) / (pow(2.0, Float(ev)) * shutterSpeed)
     }
 }

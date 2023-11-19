@@ -21,13 +21,13 @@ struct LightMeterDemoView: View {
                 VStack(alignment: .center) {
                     Text("ISO")
                         .font(.headline)
-                    Text("\(viewModel.iso)")
+                    Text("\(Int(viewModel.iso))")
                         .font(.subheadline)
                 }
                 .frame(width: 80)
                 Spacer()
                 Slider(
-                    value: Binding { Float(viewModel.iso) } set: { viewModel.iso = Int($0) },
+                    value: $viewModel.iso,
                     in: 25...3200
                 )
             }

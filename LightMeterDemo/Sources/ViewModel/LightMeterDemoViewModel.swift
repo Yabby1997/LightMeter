@@ -14,7 +14,7 @@ final class LightMeterDemoViewModel: ObservableObject {
     private let lightMeterService = LightMeterService()
     
     @Published private(set) var exposureValue: Int = .zero
-    @Published var iso: Int = 100
+    @Published var iso: Float = 100.0
     @Published var shutterSpeed: Float = 1
     @Published var aperture: Float = 1.4
     
@@ -24,14 +24,15 @@ final class LightMeterDemoViewModel: ObservableObject {
     
     private func bind() {
         $iso.combineLatest($shutterSpeed, $aperture)
-            .compactMap { [weak self] iso, shutterSpeed, aperture in
+            .compactMap { [weak self] iso, shutterSpeed, aperture -> Float? in
                 guard let self else { return nil }
                 return try? lightMeterService.getExposureValue(
                     iso: iso,
-                    shutterSpeed: shutterSpeed, 
+                    shutterSpeed: shutterSpeed,
                     aperture: aperture
                 )
             }
+            .map { Int(round($0)) }
             .assign(to: &$exposureValue)
     }
 }
