@@ -17,48 +17,24 @@ struct LightMeterDemoView: View {
                 .font(.title3)
             Text("\(viewModel.exposureValue)")
                 .font(.system(size: 120, weight: .bold))
-            HStack {
-                VStack(alignment: .center) {
-                    Text("ISO")
-                        .font(.headline)
-                    Text("\(Int(viewModel.iso))")
-                        .font(.subheadline)
-                }
-                .frame(width: 80)
-                Spacer()
-                Slider(
-                    value: $viewModel.iso,
-                    in: 25...3200
-                )
-            }
-            HStack {
-                VStack(alignment: .center) {
-                    Text("Shutter")
-                        .font(.headline)
-                    Text("\(viewModel.shutterSpeed, specifier: "%.4f")s")
-                        .font(.subheadline)
-                }
-                .frame(width: 80)
-                Spacer()
-                Slider(
-                    value: $viewModel.shutterSpeed,
-                    in: 1 / 2000...30
-                )
-            }
-            HStack {
-                VStack(alignment: .center) {
-                    Text("Aperture")
-                        .font(.headline)
-                    Text("ƒ\(viewModel.aperture, specifier: "%.1f")")
-                        .font(.subheadline)
-                }
-                .frame(width: 80)
-                Spacer()
-                Slider(
-                    value: $viewModel.aperture,
-                    in: 1...22
-                )
-            }
+            ValueSlider(
+                title: "ISO",
+                subtitle: "\(Int(viewModel.iso))",
+                valueRange: 25...3200,
+                value: $viewModel.iso
+            )
+            ValueSlider(
+                title: "Shutter",
+                subtitle: String(format: "%.4fs", viewModel.shutterSpeed),
+                valueRange: 0.0005...30,
+                value: $viewModel.shutterSpeed
+            )
+            ValueSlider(
+                title: "Aperture",
+                subtitle: String(format: "ƒ%.1f", viewModel.aperture),
+                valueRange: 1...22,
+                value: $viewModel.aperture
+            )
         }
         .padding()
     }
