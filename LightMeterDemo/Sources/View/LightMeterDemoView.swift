@@ -13,10 +13,10 @@ struct LightMeterDemoView: View {
     
     var body: some View {
         VStack {
-            Text("EV")
-                .font(.title3)
-            Text("\(viewModel.exposureValue)")
-                .font(.system(size: 120, weight: .bold))
+            ResultView(
+                title: "EV",
+                value: "\(viewModel.exposureValue)"
+            )
             ValueSlider(
                 title: "ISO",
                 subtitle: "\(Int(viewModel.iso))",
