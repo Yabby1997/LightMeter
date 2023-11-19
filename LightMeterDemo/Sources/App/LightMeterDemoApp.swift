@@ -9,6 +9,9 @@ struct LightMeterDemoApp: App {
                 ExposureValueDemoView()
                     .environmentObject(ExposureValueDemoViewModel())
                     .tabItem { Text("EV") }
+                ISODemoView()
+                    .environmentObject(ISODemoViewModel())
+                    .tabItem { Text("ISO") }
             }
         }
     }
