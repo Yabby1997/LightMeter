@@ -1,5 +1,5 @@
 //
-//  LightMeterDemoView.swift
+//  ExposureValueDemoView.swift
 //  LightMeterDemo
 //
 //  Created by Seunghun on 11/17/23.
@@ -8,8 +8,8 @@
 
 import SwiftUI
 
-struct LightMeterDemoView: View {
-    @EnvironmentObject var viewModel: LightMeterDemoViewModel
+struct ExposureValueDemoView: View {
+    @EnvironmentObject var viewModel: ExposureValueDemoViewModel
     
     var body: some View {
         VStack {
@@ -41,6 +41,6 @@ struct LightMeterDemoView: View {
 }
 
 #Preview {
-    LightMeterDemoView()
-        .environmentObject(LightMeterDemoViewModel())
+    ExposureValueDemoView()
+        .environmentObject(ExposureValueDemoViewModel())
 }

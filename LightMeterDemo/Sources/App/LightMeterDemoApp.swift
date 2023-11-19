@@ -5,8 +5,11 @@ import LightMeter
 struct LightMeterDemoApp: App {
     var body: some Scene {
         WindowGroup {
-            LightMeterDemoView()
-                .environmentObject(LightMeterDemoViewModel())
+            TabView {
+                ExposureValueDemoView()
+                    .environmentObject(ExposureValueDemoViewModel())
+                    .tabItem { Text("EV") }
+            }
         }
     }
 }

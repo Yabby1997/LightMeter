@@ -1,5 +1,5 @@
 //
-//  LightMeterDemoViewModel.swift
+//  ExposureValueDemoViewModel.swift
 //  LightMeterDemo
 //
 //  Created by Seunghun on 11/17/23.
@@ -10,7 +10,7 @@ import Combine
 import Foundation
 import LightMeter
 
-final class LightMeterDemoViewModel: ObservableObject {
+final class ExposureValueDemoViewModel: ObservableObject {
     private let lightMeterService = LightMeterService()
     
     @Published private(set) var exposureValue: Int = .zero
