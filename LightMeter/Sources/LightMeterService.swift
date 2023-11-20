@@ -49,7 +49,7 @@ public class LightMeterService {
         guard iso > .zero else { throw Errors.invalidIso }
         guard shutterSpeed > .zero else { throw Errors.invalidShutterSpeed }
         guard aperture > .zero else { throw Errors.invalidAperture }
-        return log2((100.0 * aperture * aperture) / (shutterSpeed * Float(iso)))
+        return log2((100.0 * aperture * aperture) / (shutterSpeed * iso))
     }
     
     /// Calculates the ISO value based on EV, shutter speed, and aperture.
@@ -68,6 +68,25 @@ public class LightMeterService {
     ) throws -> Float {
         guard shutterSpeed > .zero else { throw Errors.invalidShutterSpeed }
         guard aperture > .zero else { throw Errors.invalidAperture }
-        return (100.0 * pow(aperture, 2)) / (pow(2.0, Float(ev)) * shutterSpeed)
+        return (100.0 * pow(aperture, 2)) / (pow(2.0, ev) * shutterSpeed)
+    }
+    
+    /// Calculates the shutter speed based on EV, ISO, and aperture.
+    ///
+    /// - Parameters:
+    ///     - ev: The exposure value for shutter speed calculation.
+    ///     - iso: The ISO value for shutter speed calculation.
+    ///     - aperture: The aperture value for shutter speed calculation.
+    ///
+    /// - Returns: The calculated shutter speed as an float.
+    /// - Throws: ``Errors`` that occured while calculating.
+    public func getShutterSpeedValue(
+        ev: Float,
+        iso: Float,
+        aperture: Float
+    ) throws -> Float {
+        guard iso > .zero else { throw Errors.invalidIso }
+        guard aperture > .zero else { throw Errors.invalidAperture }
+        return (100.0 * pow(aperture, 2)) / (iso * pow(2.0, ev))
     }
 }
