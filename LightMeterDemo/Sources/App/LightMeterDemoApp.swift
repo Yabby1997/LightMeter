@@ -12,6 +12,9 @@ struct LightMeterDemoApp: App {
                 ISODemoView()
                     .environmentObject(ISODemoViewModel())
                     .tabItem { Text("ISO") }
+                ShutterSpeedDemoView()
+                    .environmentObject(ShutterSpeedDemoViewModel())
+                    .tabItem { Text("Shutter") }
             }
         }
     }

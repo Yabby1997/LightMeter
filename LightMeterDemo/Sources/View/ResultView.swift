@@ -16,7 +16,7 @@ struct ResultView: View {
             Text(title)
                 .font(.title3)
             Text(value)
-                .font(.system(size: 120, weight: .bold))
+                .font(.system(size: 80, weight: .bold))
         }
     }
 }
