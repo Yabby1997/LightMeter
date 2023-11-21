@@ -22,9 +22,9 @@ public class LightMeterService {
         
         public var errorDescription: String? {
             switch self {
-            case .invalidIso: return "invalid ISO vlaue has been provided."
-            case .invalidShutterSpeed: return "invalid shutter speed vlaue has been provided."
-            case .invalidAperture: return "invalid aperture vlaue has been provided."
+            case .invalidIso: return "invalid ISO value has been provided."
+            case .invalidShutterSpeed: return "invalid shutter speed value has been provided."
+            case .invalidAperture: return "invalid aperture value has been provided."
             }
         }
     }
@@ -68,7 +68,7 @@ public class LightMeterService {
     ) throws -> Float {
         guard shutterSpeed > .zero else { throw Errors.invalidShutterSpeed }
         guard aperture > .zero else { throw Errors.invalidAperture }
-        return (100.0 * pow(aperture, 2)) / (pow(2.0, ev) * shutterSpeed)
+        return (100.0 * aperture * aperture) / (pow(2.0, ev) * shutterSpeed)
     }
     
     /// Calculates the shutter speed based on EV, ISO, and aperture.
