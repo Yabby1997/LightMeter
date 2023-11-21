@@ -15,6 +15,9 @@ struct LightMeterDemoApp: App {
                 ShutterSpeedDemoView()
                     .environmentObject(ShutterSpeedDemoViewModel())
                     .tabItem { Text("Shutter") }
+                ApertureValueDemoView()
+                    .environmentObject(ApertureValueDemoViewModel())
+                    .tabItem { Text("Aperture") }
             }
         }
     }
