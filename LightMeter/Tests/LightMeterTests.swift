@@ -12,20 +12,21 @@ import XCTest
 final class LightMeterTests: XCTestCase {
     private let lightMeterService = LightMeterService()
     
+    let shutterSpeedValues: [Float] = [1, 1 / 2, 1 / 4, 1 / 8, 1 / 15, 1 / 30, 1 / 60, 1 / 125, 1 / 250, 1 / 500, 1 / 1000]
+    let apertureValues: [Float] = [1, 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22]
+    let exposureValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
     override func setUpWithError() throws {}
     
     func testEvCalculate() {
-        let shutterSpeeds: [Float] = [1, 1 / 2, 1 / 4, 1 / 8, 1 / 15, 1 / 30, 1 / 60, 1 / 125, 1 / 250, 1 / 500, 1 / 1000]
-        let apertures: [Float] = [1, 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22]
-        let defaultExposureValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        let expectedExposureValues: [Int] = apertures
+        let expectedExposureValues: [Int] = apertureValues
             .enumerated()
             .flatMap { index, _ in
-                defaultExposureValues.map { $0 + index }
+                exposureValues.map { $0 + index }
             }
         
-        let resultExposureValues = apertures.flatMap { aperture in
-            return shutterSpeeds
+        let resultExposureValues = apertureValues.flatMap { aperture in
+            return shutterSpeedValues
                 .compactMap { shutterSpeed in
                     try? lightMeterService.getExposureValue(
                         iso: 100,
@@ -64,13 +65,10 @@ final class LightMeterTests: XCTestCase {
     }
     
     func testIsoCalculate() {
-        let shutterSpeeds: [Float] = [1, 1 / 2, 1 / 4, 1 / 8, 1 / 15, 1 / 30, 1 / 60, 1 / 125, 1 / 250, 1 / 500, 1 / 1000]
-        let apertures: [Float] = [1, 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22]
-        let exposureValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        
-        let resultIsoValues = apertures.enumerated()
+        let expectedIsoValues = Array(repeating: 100, count: apertureValues.count * shutterSpeedValues.count)
+        let resultIsoValues = apertureValues.enumerated()
             .flatMap { index, aperture in
-                zip(shutterSpeeds, exposureValues)
+                zip(shutterSpeedValues, exposureValues)
                     .compactMap { shutterSpeed, exposureValue in
                         try? lightMeterService.getIsoValue(
                             ev: Float(exposureValue + index),
@@ -82,7 +80,7 @@ final class LightMeterTests: XCTestCase {
                     .map { Int($0) }
             }
         
-        XCTAssertEqual(resultIsoValues, Array(repeating: 100, count: apertures.count * shutterSpeeds.count))
+        XCTAssertEqual(expectedIsoValues, resultIsoValues)
     }
     
     func testIsoCalculationZeroShutterSpeed() {
@@ -102,24 +100,21 @@ final class LightMeterTests: XCTestCase {
     }
     
     func testShutterSpeedCalculate() {
-        let shutterSpeeds: [Float] = [1, 1 / 2, 1 / 4, 1 / 8, 1 / 15, 1 / 30, 1 / 60, 1 / 125, 1 / 250, 1 / 500, 1 / 1000]
-        let apertures: [Float] = [1, 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22]
-        let exposureValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        
-        let resultShutterSpeedValues = apertures.enumerated()
+        let expectedShutterSpeedValues = Array(repeating: shutterSpeedValues, count: apertureValues.count).flatMap { $0 }
+        let resultShutterSpeedValues = apertureValues.enumerated()
             .flatMap { index, aperture in
-                zip(shutterSpeeds, exposureValues)
-                    .compactMap { shutterSpeed, exposureValue in
+                exposureValues
+                    .compactMap { exposureValue in
                         try? lightMeterService.getShutterSpeedValue(
                             ev: Float(exposureValue + index),
                             iso: 100,
                             aperture: aperture
                         )
                     }
-                    .compactMap { $0.nearest(among: shutterSpeeds) }
+                    .compactMap { $0.nearest(among: shutterSpeedValues) }
             }
         
-        XCTAssertEqual(resultShutterSpeedValues, Array(repeating: shutterSpeeds, count: apertures.count).flatMap { $0 })
+        XCTAssertEqual(expectedShutterSpeedValues, resultShutterSpeedValues)
     }
     
     func testShutterSpeedCalculationZeroIso() {
@@ -136,5 +131,39 @@ final class LightMeterTests: XCTestCase {
     
     func testShutterSpeedCalculationNegativeAperture() {
         XCTAssertThrowsError(try lightMeterService.getShutterSpeedValue(ev: 9, iso: 400, aperture: -1.4))
+    }
+    
+    func testApertureCalculate() {
+        let expectedApertureValues = apertureValues.flatMap { Array(repeating: $0, count: shutterSpeedValues.count) }
+        let resultApertureValues = apertureValues.enumerated()
+            .flatMap { index, _ in
+                zip(shutterSpeedValues, exposureValues)
+                    .compactMap { shutterSpeed, exposureValue in
+                        try? lightMeterService.getApertureValue(
+                            ev: Float(exposureValue + index),
+                            iso: 100,
+                            shutterSpeed: shutterSpeed
+                        )
+                    }
+                    .compactMap { $0.nearest(among: apertureValues) }
+            }
+        
+        XCTAssertEqual(expectedApertureValues, resultApertureValues)
+    }
+    
+    func testApertureCalculateZeroIso() {
+        XCTAssertThrowsError(try lightMeterService.getApertureValue(ev: 7, iso: .zero, shutterSpeed: 1 / 2000))
+    }
+    
+    func testApertureCalculateNegativeIso() {
+        XCTAssertThrowsError(try lightMeterService.getApertureValue(ev: 4, iso: -25, shutterSpeed: 1 / 60))
+    }
+    
+    func testApertureCalculateZeroShutterSpeed() {
+        XCTAssertThrowsError(try lightMeterService.getApertureValue(ev: 7, iso: 100, shutterSpeed: .zero))
+    }
+    
+    func testApertureCalculateNegativeShutterSpeed() {
+        XCTAssertThrowsError(try lightMeterService.getApertureValue(ev: -4, iso: 50, shutterSpeed: -1 / 60))
     }
 }

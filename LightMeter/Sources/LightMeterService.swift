@@ -89,4 +89,23 @@ public class LightMeterService {
         guard aperture > .zero else { throw Errors.invalidAperture }
         return (100.0 * pow(aperture, 2)) / (iso * pow(2.0, ev))
     }
+    
+    /// Calculates the aperture value based on EV, ISO, and shutter speed.
+    ///
+    /// - Parameters:
+    ///     - ev: The exposure value for aperture value calculation.
+    ///     - iso: The ISO value for aperture value calculation.
+    ///     - shutterSpeed: The shutter speed for aperture value calculation.
+    ///
+    /// - Returns: The calculated aperture value as an float.
+    /// - Throws: ``Errors`` that occured while calculating.
+    public func getApertureValue(
+        ev: Float,
+        iso: Float,
+        shutterSpeed: Float
+    ) throws -> Float {
+        guard iso > .zero else { throw Errors.invalidIso }
+        guard shutterSpeed > .zero else { throw Errors.invalidShutterSpeed }
+        return sqrt((iso * shutterSpeed * pow(2.0, ev)) / 100.0)
+    }
 }
