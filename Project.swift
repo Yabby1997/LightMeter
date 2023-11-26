@@ -15,7 +15,7 @@ let targets: [Target] = [
         platform: .iOS,
         product: .unitTests,
         bundleId: "com.seunghun.lightmetertests",
-        sources: ["LightMeter/Tests/**"],
+        sources: ["LightMeterTests/Sources/**"],
         dependencies: [
             .target(name: "LightMeter")
         ]
