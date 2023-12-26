@@ -18,7 +18,12 @@ let targets: [Target] = [
         sources: ["LightMeterTests/Sources/**"],
         dependencies: [
             .target(name: "LightMeter")
-        ]
+        ],
+        settings: .settings(
+            base: ["DEVELOPMENT_TEAM": "5HZQ3M82FA"],
+            configurations: [],
+            defaultSettings: .recommended
+        )
     ),
     Target(
         name: "LightMeterDemo",
