@@ -8,7 +8,10 @@ let targets: [Target] = [
         bundleId: "com.seunghun.lightmeter",
         deploymentTarget: .iOS(targetVersion: "15.0", devices: [.iphone]),
         sources: ["LightMeter/Sources/**"],
-        dependencies: []
+        dependencies: [],
+        settings: .settings(
+            base: ["SWIFT_STRICT_CONCURRENCY": "complete"]
+        )
     ),
     Target(
         name: "LightMeterTests",
@@ -20,7 +23,10 @@ let targets: [Target] = [
             .target(name: "LightMeter")
         ],
         settings: .settings(
-            base: ["DEVELOPMENT_TEAM": "5HZQ3M82FA"],
+            base: [
+                "DEVELOPMENT_TEAM": "5HZQ3M82FA",
+                "SWIFT_STRICT_CONCURRENCY": "complete"
+            ],
             configurations: [],
             defaultSettings: .recommended
         )
@@ -38,7 +44,10 @@ let targets: [Target] = [
             .target(name: "LightMeter")
         ],
         settings: .settings(
-            base: ["DEVELOPMENT_TEAM": "5HZQ3M82FA"],
+            base: [
+                "DEVELOPMENT_TEAM": "5HZQ3M82FA",
+                "SWIFT_STRICT_CONCURRENCY": "complete"
+            ],
             configurations: [],
             defaultSettings: .recommended
         )
