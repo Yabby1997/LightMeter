@@ -10,8 +10,6 @@ import Foundation
 import LightMeter
 
 final class ISODemoViewModel: ObservableObject {
-    private let lightMeterService = LightMeterService()
-    
     @Published private(set) var iso: Int = 100
     @Published var exposureValue: Float = 1
     @Published var shutterSpeed: Float = 1
@@ -25,7 +23,7 @@ final class ISODemoViewModel: ObservableObject {
         $exposureValue.combineLatest($shutterSpeed, $aperture)
             .compactMap { [weak self] exposureValue, shutterSpeed, aperture -> Float? in
                 guard let self else { return nil }
-                return try? lightMeterService.getIsoValue(
+                return try? LightMeterService.getIsoValue(
                     ev: exposureValue,
                     shutterSpeed: shutterSpeed,
                     aperture: aperture

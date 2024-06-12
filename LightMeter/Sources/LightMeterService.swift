@@ -9,7 +9,7 @@
 import Foundation
 
 /// A service for light meter functionality, providing exposure value calculations.
-public class LightMeterService {
+public enum LightMeterService {
     
     /// Errors that can be thrown by `LightMeterService`.
     public enum Errors: LocalizedError {
@@ -29,9 +29,6 @@ public class LightMeterService {
         }
     }
 
-    /// Initializes a new instance of LightMeterService.
-    public init() {}
-
     /// Calculates the Exposure Value (EV) based on ISO, shutter speed, and aperture.
     ///
     /// - Parameters:
@@ -41,7 +38,7 @@ public class LightMeterService {
     ///
     /// - Returns: The calculated Exposure Value as an float.
     /// - Throws: ``Errors`` that occured while calculating.
-    public func getExposureValue(
+    public static func getExposureValue(
         iso: Float,
         shutterSpeed: Float,
         aperture: Float
@@ -61,7 +58,7 @@ public class LightMeterService {
     ///
     /// - Returns: The calculated ISO value as an float.
     /// - Throws: ``Errors`` that occured while calculating.
-    public func getIsoValue(
+    public static func getIsoValue(
         ev: Float,
         shutterSpeed: Float,
         aperture: Float
@@ -80,7 +77,7 @@ public class LightMeterService {
     ///
     /// - Returns: The calculated shutter speed as an float.
     /// - Throws: ``Errors`` that occured while calculating.
-    public func getShutterSpeedValue(
+    public static func getShutterSpeedValue(
         ev: Float,
         iso: Float,
         aperture: Float
@@ -99,7 +96,7 @@ public class LightMeterService {
     ///
     /// - Returns: The calculated aperture value as an float.
     /// - Throws: ``Errors`` that occured while calculating.
-    public func getApertureValue(
+    public static func getApertureValue(
         ev: Float,
         iso: Float,
         shutterSpeed: Float
